@@ -376,77 +376,202 @@ textarea{resize:vertical;min-height:68px;line-height:1.55;}
       color: #aaa; font-size: 12px; margin-top: 8px;
     }
 
-    /* ── MOBILE UI ────────────────────────────────────────── */
+    /* ══════════════════════════════════════════════════════
+       MOBILE UI — diseño adaptado para celulares de mecánicos
+    ══════════════════════════════════════════════════════ */
     @media (max-width: 768px) {
-      /* Nav horizontal scroll */
-      .nav {
-        overflow-x: auto; -webkit-overflow-scrolling: touch;
-        flex-wrap: nowrap; gap: 2px; padding: 0 8px;
+
+      /* ── Header compacto ─────────────────────── */
+      header {
+        padding: 0 12px;
+        height: 56px;
+      }
+      .logo img { height: 32px !important; }
+      .logo-sep { display: none; }
+      .logo-sub  { display: none; }
+      .logo-title { font-size: 13px; letter-spacing: 1px; }
+      .sync-label { display: none; }
+      .hbadge     { display: none; }
+      #reader-login-btn { padding: 7px 13px; font-size: 12px; }
+
+      /* ── Reader banner compacto ──────────────── */
+      #reader-banner { font-size: 11px; padding: 6px 12px; }
+
+      /* ── Nav: scroll horizontal sin scroll visual ── */
+      nav {
+        padding: 0 8px;
+        top: 56px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
       }
-      .nav::-webkit-scrollbar { display: none; }
-      .nav a { font-size: 11px; padding: 8px 10px; white-space: nowrap; flex-shrink: 0; }
+      nav::-webkit-scrollbar { display: none; }
+      .nav-btn {
+        font-size: 10px; padding: 10px 10px;
+        white-space: nowrap; flex-shrink: 0;
+      }
+      #user-bar { padding: 6px 0; gap: 8px; }
+      #user-bar .user-name { font-size: 11px; max-width: 90px; }
 
-      /* Modales full-screen desde abajo */
+      /* ── Main padding ────────────────────────── */
+      main { padding: 12px 12px; }
+
+      /* ── KPIs: 2 columnas ───────────────────── */
+      .g4 { grid-template-columns: 1fr 1fr; }
+      .g3 { grid-template-columns: 1fr 1fr; }
+      .g2, .g21, .g12 { grid-template-columns: 1fr; }
+      .kpi-val { font-size: 26px; }
+      .kpi { padding: 12px 14px; }
+
+      /* ── Page headers ───────────────────────── */
+      .page-hdr { margin-bottom: 14px; gap: 8px; }
+      .page-hdr h1 { font-size: 22px; }
+      .page-hdr-actions { gap: 6px; }
+      .page-hdr-actions .btn { min-height: 38px; font-size: 12px; padding: 8px 12px; }
+
+      /* ── Grillas de flota ───────────────────── */
+      .fleet-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .veh-card   { padding: 10px 12px; }
+      .veh-icon   { width: 42px; height: 42px; font-size: 20px; }
+      .veh-name   { font-size: 14px; }
+
+      /* ── TABLA DE OS → CARDS ─────────────────
+         La tabla de ordenes se convierte en tarjetas
+         apiladas, una por fila, sin scroll horizontal
+      ─────────────────────────────────────────── */
+      #sec-ordenes .table-wrap { overflow-x: visible; }
+      #sec-ordenes table       { min-width: unset; display: block; }
+      #sec-ordenes thead       { display: none; }
+      #sec-ordenes tbody       { display: flex; flex-direction: column; gap: 8px; }
+      #sec-ordenes tbody tr {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 2px 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 12px;
+        cursor: pointer;
+        min-width: unset;
+        align-items: center;
+      }
+      #sec-ordenes tbody tr:active { background: var(--surface3); }
+      /* Nº OS — col 1, fila 1 */
+      #sec-ordenes tbody tr td:nth-child(1) {
+        grid-column: 1; grid-row: 1;
+        font-size: 13px; font-weight: 700; color: var(--orange);
+        padding: 0; border: none;
+      }
+      /* Fecha — ocultar en mobile */
+      #sec-ordenes tbody tr td:nth-child(2) { display: none; }
+      /* Tipo badge — col 3, fila 1 */
+      #sec-ordenes tbody tr td:nth-child(3) {
+        grid-column: 3; grid-row: 1;
+        padding: 0; border: none; text-align: right;
+      }
+      /* Vehículo — col 1-2, fila 2 */
+      #sec-ordenes tbody tr td:nth-child(4) {
+        grid-column: 1 / 3; grid-row: 2;
+        font-size: 12px; color: var(--text);
+        max-width: unset; white-space: nowrap;
+        overflow: hidden; text-overflow: ellipsis;
+        padding: 0; border: none;
+      }
+      /* Solicitante — ocultar */
+      #sec-ordenes tbody tr td:nth-child(5) { display: none; }
+      /* Descripción — ocultar */
+      #sec-ordenes tbody tr td:nth-child(6) { display: none; }
+      /* Responsable — ocultar */
+      #sec-ordenes tbody tr td:nth-child(7) { display: none; }
+      /* Vencimiento — ocultar */
+      #sec-ordenes tbody tr td:nth-child(8) { display: none; }
+      /* Estado badge — col 3, fila 2 */
+      #sec-ordenes tbody tr td:nth-child(9) {
+        grid-column: 3; grid-row: 2;
+        padding: 0; border: none; text-align: right;
+      }
+      /* Botón editar — ocultar en mobile (se edita desde detalle) */
+      #sec-ordenes tbody tr td:nth-child(10) { display: none; }
+
+      /* Dashboard tabla reciente también en cards */
+      #d-recent tr {
+        display: flex; flex-wrap: wrap; gap: 4px 8px;
+        padding: 8px 10px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+      }
+      #d-recent td { padding: 0; border: none; font-size: 11px; }
+      #d-recent thead { display: none; }
+
+      /* ── Modales: bottom sheet ───────────────── */
       .modal-overlay {
         align-items: flex-end;
         padding: 0;
       }
-      .modal-overlay .modal {
+      .modal-overlay .modal,
+      .modal-overlay .modal.wide,
+      .modal-overlay .modal.xl {
         width: 100% !important; max-width: 100% !important;
-        margin: 0; border-radius: 16px 16px 0 0;
-        max-height: 94vh; overflow-y: auto;
+        margin: 0; border-radius: 18px 18px 0 0;
+        max-height: 92vh; overflow-y: auto;
         -webkit-overflow-scrolling: touch;
       }
-      .modal-overlay .modal.wide { width: 100% !important; }
-
       /* Handle de arrastre visual */
       .modal-hdr::before {
         content: ''; display: block;
-        width: 40px; height: 4px; background: var(--border);
-        border-radius: 2px; margin: 0 auto 12px;
+        width: 36px; height: 4px; background: var(--border2);
+        border-radius: 2px; margin: 0 auto 10px;
       }
 
-      /* Formularios en columna */
-      .fg.fg2, .fg.fg4 { grid-template-columns: 1fr; }
-      .fg.fg3 { grid-template-columns: 1fr 1fr; }
+      /* ── Formularios: columna única ──────────── */
+      .fg.fg2, .fg.fg3, .fg.fg4 { grid-template-columns: 1fr; }
+      .ff.s2, .ff.s3, .ff.s4   { grid-column: span 1; }
 
-      /* Tabs scrollables */
-      .tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
-      .tab  { white-space: nowrap; flex-shrink: 0; }
+      /* ── Tabs scrollables ────────────────────── */
+      .tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab  { white-space: nowrap; flex-shrink: 0; font-size: 11px; padding: 9px 12px; }
 
-      /* Touch targets mínimo 44px */
-      .btn { min-height: 44px; padding: 10px 16px; font-size: 13px; }
-      .btn.btn-sm { min-height: 36px; }
+      /* ── Touch targets ───────────────────────── */
+      .btn { min-height: 44px; padding: 10px 14px; font-size: 13px; }
+      .btn.btn-sm { min-height: 38px; padding: 8px 12px; }
       select, input[type=text], input[type=date],
       input[type=number], textarea {
-        font-size: 16px !important;  /* evita zoom en iOS */
-        min-height: 42px;
+        font-size: 16px !important; /* evita zoom automático iOS */
+        min-height: 44px;
       }
-      textarea { min-height: 80px; }
+      textarea { min-height: 88px; }
 
-      /* Cards flota responsive */
-      .fleet-grid { grid-template-columns: 1fr 1fr; }
-      .veh-card   { padding: 12px; }
+      /* ── Checklist: items más grandes ────────── */
+      .checklist-item { padding: 10px 8px; }
+      .checklist-item input[type=checkbox] {
+        width: 20px; height: 20px; flex-shrink: 0;
+      }
 
-      /* OS table scroll horizontal */
-      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      table { min-width: 600px; }
-
-      /* Fotos: más anchas en mobile */
+      /* ── Fotos ───────────────────────────────── */
       .photo-card { width: calc(50% - 6px); }
-      .photo-card img { height: 120px; }
-      .photo-add-btn { width: calc(50% - 6px); height: 120px; }
+      .photo-card img { height: 110px; }
+      .photo-add-btn { width: calc(50% - 6px); height: 110px; }
 
-      /* Footer con botones apilados */
-      .modal-footer { flex-wrap: wrap; gap: 8px; }
+      /* ── Footer modal: botones apilados ─────── */
+      .modal-footer { flex-wrap: wrap; gap: 8px; padding: 12px 14px; }
       .modal-footer .btn { flex: 1; min-width: 120px; }
+
+      /* ── Toolbar: filtros apilados ───────────── */
+      .toolbar { gap: 8px; }
+      .search-box { max-width: 100%; flex: 1; min-width: 0; }
+      .toolbar select { min-height: 38px; font-size: 13px !important; }
     }
 
+    /* ── Extra pequeño (< 400px) ──────────────── */
     @media (max-width: 400px) {
       .fleet-grid { grid-template-columns: 1fr; }
       .photo-card { width: 100%; }
       .photo-add-btn { width: 100%; height: 100px; }
+      .g4, .g3 { grid-template-columns: 1fr 1fr; }
+      nav { padding: 0 4px; }
+      .nav-btn { font-size: 9px; padding: 10px 8px; }
     }
 
     /* Botón flotante Taller (mobile) */
