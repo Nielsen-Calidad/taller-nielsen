@@ -2451,7 +2451,7 @@ function renderVehOSList(vehId) {
   }
   container.innerHTML = `<div class="tbl-wrap"><table>
     <thead><tr><th>OS Nº</th><th>Fecha</th><th>Tipo</th><th>Descripción</th><th>Estado</th><th></th></tr></thead>
-    <tbody>${osv.map(o => `<tr class="clickable" onclick="openDetail('${o.id}')">
+    <tbody>${osv.map(o => `<tr class="clickable" onclick="editOS('${o.id}')">
       <td class="td-id">${escHtml(o.numero)}</td>
       <td class="td-date">${fmtDate(o.fecha_pedido)}</td>
       <td>${typeBadge(o.tipo)}</td>
@@ -3766,7 +3766,7 @@ function renderTable() {
   const today = new Date().toISOString().split('T')[0];
   tbody.innerHTML = list.map(os => {
     const isOverdue = os.fecha_vencimiento && os.fecha_vencimiento < today && !['Finalizada','Aprobada'].includes(os.estado);
-    return `<tr class="clickable ${isOverdue ? 'row-overdue' : ''}" onclick="openDetail('${os.id}')">
+    return `<tr class="clickable ${isOverdue ? 'row-overdue' : ''}" onclick="editOS('${os.id}')">
       <td class="td-id">${isOverdue?'<span class="overdue-dot"></span>':''}${escHtml(os.numero)}</td>
       <td class="td-date">${fmtDate(os.fecha_pedido)}</td>
       <td>${typeBadge(os.tipo)}</td>
@@ -3886,7 +3886,7 @@ function renderDashboard() {
   const recent = document.getElementById('d-recent');
   if (recent) {
     const last8 = [...ordenes].sort((a,b)=>b.fecha_pedido.localeCompare(a.fecha_pedido)).slice(0,8);
-    recent.innerHTML = last8.map(os => `<tr class="clickable" onclick="openDetail('${os.id}')">
+    recent.innerHTML = last8.map(os => `<tr class="clickable" onclick="editOS('${os.id}')">
       <td class="td-id">${escHtml(os.numero)}</td>
       <td class="td-date">${fmtDate(os.fecha_pedido)}</td>
       <td>${typeBadge(os.tipo)}</td>
@@ -7979,7 +7979,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const listHtml = activas.map(os => `
-      <div onclick="openDetail('${os.id}');closeMobileMenu();"
+      <div onclick="editOS('${os.id}');closeMobileMenu();"
            style="padding:14px 12px;border-bottom:1px solid var(--border);cursor:pointer;
                   display:flex;align-items:center;gap:12px;active:background:var(--bg3);">
         <div style="font-size:22px;">${os.estado === 'En ejecución' ? '🔧' : '📋'}</div>
